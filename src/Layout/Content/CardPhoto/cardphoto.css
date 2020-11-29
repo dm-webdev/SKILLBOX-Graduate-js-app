@@ -16,6 +16,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 0 auto;
   padding: 10px;
   max-width: 1200px;  
@@ -23,6 +24,13 @@
   object-fit: cover;
   background: var(--grey);
   opacity: 0.95;
+}
+
+.modal__img {
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .modal__btn_hide {

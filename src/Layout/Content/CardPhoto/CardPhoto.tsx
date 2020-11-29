@@ -20,12 +20,13 @@ export function CardPhoto({ photo, cardPhotoClose }: ICardPhoto) {
   return ReactDOM.createPortal(
     <div className="modal">
       <div className="modal__container" ref={ref}>
-        <picture>
+        <picture className="modal__img">
           <source media="(min-width: 1650px)" srcSet={photo.urls_full} />
 
           <source media="(min-width: 576px)" srcSet={photo.urls_regular} />
 
           <img
+            className="modal__img"
             src={photo.urls_small}
             alt={photo.alt_description}
           />
