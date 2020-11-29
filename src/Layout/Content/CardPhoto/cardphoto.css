@@ -1,0 +1,40 @@
+.modal {
+  position: fixed;
+  overflow: hidden;
+  z-index: 15;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  background-color: rgba(31, 29, 29, 0.4);
+}
+
+.modal__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 10px;
+  max-width: 1200px;  
+  height: 95%;
+  object-fit: cover;
+  background: var(--grey);
+  opacity: 0.95;
+}
+
+.modal__btn_hide {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(252, 252, 252, 0.8);
+  background-image: url("close.svg");
+  background-position: center;
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+}

@@ -1,0 +1,82 @@
+.karma-count {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 500;
+  background-color: rgba(252, 252, 252, 0.5);
+  color: var(--blue);
+  transition: background-color 0.2s;
+}
+
+.karma-count:hover {
+  background-color: rgba(252, 252, 252, 1);
+}
+
+.karma-count__like,
+.karma-count__dislike {
+  padding: 15px;
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+}
+
+.karma-count__like {
+  background-image: url("like_icon.svg");
+}
+
+.karma-count__dislike {
+  background-image: url("like_icon.svg");
+  transform: rotateZ(180deg);
+}
+
+.karma-count__desk {
+  padding-right: 20px;
+  background-image: url("heart.svg");
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  user-select: none;
+}
+
+.karma-count__like:hover,
+.karma-count__like:focus,
+.karma-count__like:active {
+  filter: invert(75%) sepia(46%) saturate(6895%) hue-rotate(75deg) brightness(117%) contrast(116%);
+}
+
+.karma-count__dislike:hover,
+.karma-count__dislike:focus,
+.karma-count__dislike:active {
+  filter: invert(50%) sepia(99%) saturate(554%) hue-rotate(355deg) brightness(96%) contrast(105%);
+}
+
+.karma-count__like:disabled,
+.karma-count__dislike:disabled {
+  cursor: default;
+  opacity: .5;
+}
+
+.karma-count__like:disabled:hover,
+.karma-count__dislike:disabled:hover {
+  filter: none;
+}
+
+@media all and (min-width: 1024px) {
+  .karma-count__like,
+  .karma-count__dislike {
+    padding: 25px;
+    background-size: 25px 25px;
+  }
+
+  .karma-count__desk {
+    margin: 5px 0;
+    font-size: 18px;
+  }
+}

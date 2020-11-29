@@ -1,0 +1,2 @@
+export const GET_GALLERY = "GALLERY/GET_GALLERY";
+export const SET_LIKEBTN = "GALLERY/SET_LIKEBTN";

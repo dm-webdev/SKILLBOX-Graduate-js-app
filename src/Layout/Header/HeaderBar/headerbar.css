@@ -1,0 +1,27 @@
+.header__bar {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 10px;
+}
+
+@media all and (min-width: 576px) {
+  .header__bar {
+    font-size: 16px;
+    line-height: 18px;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  .header__bar {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+@media all and (min-width: 1250px) {
+  .header__bar {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

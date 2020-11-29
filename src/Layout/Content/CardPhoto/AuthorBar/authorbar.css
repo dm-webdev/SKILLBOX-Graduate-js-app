@@ -1,0 +1,64 @@
+.author-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: rgba(252, 252, 252, 0.4);
+  font-size: 12px;
+  word-break: break-all;
+  transform: background-color 0.2s, box-shadow 0.2s;
+}
+
+.author-bar__avatar {
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.author-bar__desk {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+}
+
+.author-bar:hover,
+.author-bar:active,
+.author-bar:focus {
+  background-color: rgba(252, 252, 252, 1);
+}
+
+.author-bar:hover .author-bar__avatar,
+.author-bar:active .author-bar__avatar,
+.author-bar:focus .author-bar__avatar{
+  box-shadow: 0 0 4px 2px var(--blue);
+}
+
+@media all and (min-width: 576px) {
+  .author-bar {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .author-bar__avatar {
+    margin-right: 10px;
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  .author-bar {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+  
+  .author-bar__avatar {
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+  }
+}

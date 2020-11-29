@@ -1,0 +1,80 @@
+.content__menu {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 5px;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.content__desk {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  font-size: 9px;
+}
+
+.content__date {
+  margin-bottom: 2px;
+}
+
+.content__karma {
+  padding-right: 15px;
+  background-image: url("heart.svg");
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: 1em;
+}
+
+.content__authorinfo {
+  display: flex;
+  align-items: center;
+  margin-right: 3px;
+  font-weight: 500;
+  color: var(--grey);
+}
+
+.content__authoravatar__container {
+  position: relative;
+  margin-right: 3px;
+  background-color: var(--grey);
+  border-radius: 50%;
+  width: 2.8em;
+  line-height: 0;
+}
+
+.content__authoravatar {
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.content__authorname {
+  text-align: center;
+  word-break: break-all;
+  font-size: 9px;
+}
+
+@media all and (min-width: 576px) {
+  .content__menu {
+    padding: 5px 10px;
+  }
+
+  .content__authoravatar__container {
+    margin-right: 10px;
+  }
+}
+
+@media all and (min-width: 1650px) {
+  .content__menu {
+    padding: 10px 15px;
+  }
+
+  .content__desk {
+    font-size: 11px;
+    line-height: 15px;
+  }
+
+  .content__authorname {
+    font-size: 14px;
+  }
+}
