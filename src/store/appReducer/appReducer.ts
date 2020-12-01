@@ -69,5 +69,5 @@ export const appReducer: Reducer<TAppReducer> = (
     };
     default:
       return state;
-  }
+  };
 };

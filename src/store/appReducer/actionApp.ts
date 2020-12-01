@@ -43,4 +43,4 @@ export function hideAlert() {
   return {
     type: HIDE_ALERT,
   };
-}
+};

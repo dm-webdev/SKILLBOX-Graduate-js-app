@@ -113,6 +113,7 @@ export const likePhoto = (
   });
 };
 
+
 export const dislikePhoto = (
   id: string
 ): ThunkAction<void, TRootReducer, unknown, Action<string>> => (dispatch) => {

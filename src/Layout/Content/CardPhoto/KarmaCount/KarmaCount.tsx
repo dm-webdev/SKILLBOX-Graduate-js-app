@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SET_LIKEBTN } from "../../../../store/galleryReducer/galleryConst";
 import { TRootReducer } from "../../../../store/rootReducer";
 import { IPhoto } from "../../../../utils/createList";
+import { setDislikeBtn } from "../../../../utils/setDislikeBtn";
 import { setLikeBtn } from "../../../../utils/setLikeBtn";
 import { dislikePhoto, likePhoto } from "../../../../utils/unsplash";
 import "./karmacount.css";
@@ -40,29 +41,29 @@ export function KarmaCount({ photo }: IKarmaCount) {
     dispatch(dislikePhoto(photo.id));
     dispatch({
       type: SET_LIKEBTN,
-      photos: setLikeBtn(photosList, indexOfPhoto),
+      photos: setDislikeBtn(photosList, indexOfPhoto),
     });
   }
 
   return (
     <div className="karma-count">
-      <button
-        className="karma-count__like"
-        type="button"
-        aria-label="поставить лайк фотографии"
-        onClick={() => handleLike()}
-        disabled={isLiked}
-      ></button>
+      {!isLiked ? (
+        <button
+          className="karma-count__like"
+          type="button"
+          aria-label="поставить лайк фотографии"
+          onClick={() => handleLike()}
+        ></button>
+      ) : (
+        <button
+          className="karma-count__dislike"
+          type="button"
+          aria-label="убрать лайк фотографии"
+          onClick={() => handleDisLike()}
+        ></button>
+      )}
 
       <span className="karma-count__desk">{likeCount}</span>
-
-      <button
-        className="karma-count__dislike"
-        type="button"
-        aria-label="убрать лайк фотографии"
-        onClick={() => handleDisLike()}
-        disabled={isLiked}
-      ></button>
     </div>
   );
 }
