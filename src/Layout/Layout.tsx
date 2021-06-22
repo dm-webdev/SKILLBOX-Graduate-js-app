@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { TRootReducer } from "../store/rootReducer";
 import { Alert } from "./components/Alert";
@@ -10,19 +10,13 @@ import { Header } from "./Header";
 import "./layout.css";
 
 export function Layout() {
-  const isLoading = useSelector<TRootReducer, boolean>(
-    (state) => state.app.isLoading
-  );
-  const isAlert = useSelector<TRootReducer, boolean>(
-    (state) => state.app.isAlert
-  );
-  const textAlert = useSelector<TRootReducer, string>(
-    (state) => state.app.alertText
-  );
+  const isLoading = useSelector<TRootReducer, boolean>(state => state.app.isLoading);
+  const isAlert = useSelector<TRootReducer, boolean>(state => state.app.isAlert);
+  const textAlert = useSelector<TRootReducer, string>(state => state.app.alertText);
 
   return (
     <div className="layout">
-      <BrowserRouter basename="/react_app">
+      <HashRouter hashType="noslash">
         <Header />
 
         <Content />
@@ -32,7 +26,7 @@ export function Layout() {
         {isLoading && <Loader />}
 
         {isAlert && <Alert text={textAlert} />}
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }

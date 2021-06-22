@@ -57,5 +57,5 @@
   "devDependencies": {
     "@types/unsplash-js": "^6.3.1"
   },
-  "homepage": "https://dm-webdev.ru/react_app"
+  "homepage": "https://dm-webdev.ru/react-app"
 }

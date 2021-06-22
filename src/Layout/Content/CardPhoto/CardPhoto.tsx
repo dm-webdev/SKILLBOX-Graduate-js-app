@@ -5,6 +5,8 @@ import { useModalOpen } from "../../../utils/hooks/useModalOpen";
 import { AuthorBar } from "./AuthorBar";
 import "./cardphoto.css";
 import { KarmaCount } from "./KarmaCount";
+import { useSelector } from 'react-redux';
+import { TRootReducer } from '../../../store/rootReducer';
 
 interface ICardPhoto {
   photo: IPhoto;
@@ -13,6 +15,7 @@ interface ICardPhoto {
 
 export function CardPhoto({ photo, cardPhotoClose }: ICardPhoto) {
   const [ref] = useModalOpen(cardPhotoClose);
+  const token = useSelector<TRootReducer>(state => state.app.token);
 
   const node = document.querySelector("#modal");
   if (!node) return null;
@@ -22,9 +25,7 @@ export function CardPhoto({ photo, cardPhotoClose }: ICardPhoto) {
       <div className="modal__container" ref={ref}>
         <picture className="modal__img">
           <source media="(min-width: 1650px)" srcSet={photo.urls_full} />
-
           <source media="(min-width: 576px)" srcSet={photo.urls_regular} />
-
           <img
             className="modal__img"
             src={photo.urls_small}
@@ -34,13 +35,13 @@ export function CardPhoto({ photo, cardPhotoClose }: ICardPhoto) {
 
         <button
           className="modal__btn_hide"
-          onClick={() => cardPhotoClose()}
+          onClick={cardPhotoClose}
           aria-label="свернуть изображение"
-        ></button>
+        />
 
         <AuthorBar photo={photo} />
 
-        <KarmaCount photo={photo} />
+        {!!token && <KarmaCount photo={photo}/>}
       </div>
     </div>,
     node

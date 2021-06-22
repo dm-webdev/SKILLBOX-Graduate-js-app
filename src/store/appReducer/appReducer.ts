@@ -10,7 +10,7 @@ import {
 } from "./appConst";
 
 export type TAppReducer = {
-  token: undefined | string;
+  token: string | null;
   isLoading: boolean;
   isAlert: boolean;
   alertText: string;
@@ -18,7 +18,7 @@ export type TAppReducer = {
 };
 
 const initialState: TAppReducer = {
-  token: undefined,
+  token: null,
   isLoading: false,
   isAlert: false,
   alertText: "",
@@ -38,7 +38,7 @@ export const appReducer: Reducer<TAppReducer> = (
     case CLEAR_TOKEN:
       return {
         ...state,
-        token: undefined,
+        token: null,
       };
     case SHOW_LOADER:
       return {

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import "./userblock.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,52 +5,49 @@ import { TRootReducer } from "../../../store/rootReducer";
 import { clearUserData, getUserDate } from "../../../store/userReducer/userActions";
 import { getTokenUserData, useToken } from "../../../utils/unsplash";
 import { clearToken } from "../../../store/appReducer/actionApp";
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import defaultAvatar from "../../../img/avatar_anonim.svg";
+import { TUserDataReducer } from "../../../store/userReducer/userDataReducer";
 
 export function UserBlock() {
-
-  const dispatch = useDispatch();
-  const token = useSelector<TRootReducer>((state) => state.app.token);
-  const userId = useSelector<TRootReducer, number>((state) => state.userData.numeric_id);
-  const userName = useSelector<TRootReducer, string | undefined>((state) => state.userData.username);
-  const avatarSrc = useSelector<TRootReducer, string | undefined>((state) => state.userData.profile_image);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const token = useSelector<TRootReducer>(state => state.app.token);
+  const userData = useSelector<TRootReducer, TUserDataReducer>(state => state.userData);
+  const isTokenPresent = !!token;
+  const isUserDataPresent = !!userData?.numeric_id;
 
-  useToken();  
+  useToken();
 
-  let handleClick: () => void;
+  const handleClick: () => void = isTokenPresent
+    ? () => {
+        dispatch(clearUserData());
+        dispatch(clearToken());
+        localStorage.removeItem("unsplashToken");
+        history.push("/");
+      }
+    : () => getTokenUserData()
 
-  useEffect (()=>{
-    if (token !== undefined && userId === 0) {
+  useEffect (() => {
+    if (isTokenPresent && !isUserDataPresent) {
       dispatch(getUserDate());
-      history.push("/auth");
     }
-  }, [dispatch, history, token, userId]);
-
-  if (!token) {
-    handleClick = () => {
-      getTokenUserData();      
-      // history.push("/auth")
-    };
-  } else {
-    handleClick = () => {
-      dispatch(clearUserData());
-      dispatch(clearToken());
-      localStorage.removeItem("token");
-      history.push("/");
-    };
-  }
+  }, [isTokenPresent, isUserDataPresent]);
 
   return (
     <button
       className={`header__link ${token ? "text_dark" : "text_grey"}`}
       type="button"
       aria-label="зарегистрироваться"
-      onClick={() => handleClick()}
+      onClick={handleClick}
     >
-      <p className="header__text">{userName || "войти"}</p>
+      <p className="header__text">{userData?.username || "войти"}</p>
       <div className="header__img__container">
-        <img src={avatarSrc || "./avatar_anonim.svg"} className="header__avatar" alt={userName ? userName[0].toUpperCase() : "A"} />
+        <img
+          className="header__avatar"
+          src={userData?.profile_image || defaultAvatar}
+          alt={userData?.username ? userData?.username[0].toUpperCase() : "A"}
+        />
       </div>
     </button>
   );

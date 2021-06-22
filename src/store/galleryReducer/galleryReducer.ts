@@ -9,20 +9,20 @@ export type TGalleryReducer = {
 
 const initialState: TGalleryReducer = {
   photos: [],
-}
+};
 
 export const galleryReducer: Reducer<TGalleryReducer> = (state = initialState, action) => {
   switch (action.type) {
-    case GET_GALLERY: 
+    case GET_GALLERY:
       return {
-        ...state, 
+        ...state,
         photos: state.photos.concat(action.photos),
       };
-      case SET_LIKEBTN: 
+      case SET_LIKEBTN:
       return {
-        ...state, 
+        ...state,
         photos: state.photos,
       };
-    default: return state
+    default: return state;
   }
-}
+};

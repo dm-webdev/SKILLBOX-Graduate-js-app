@@ -2,6 +2,7 @@ import React from "react";
 import "./header.css";
 import { HeaderBar } from "./HeaderBar";
 import { UserBlock } from "./UserBlock";
+import logo from "../../img/logo.svg";
 
 export function Header() {
   return (
@@ -14,14 +15,14 @@ export function Header() {
             aria-label="перейти на персональную страницу разработчика, Мироненко Дениса"
           >
             <img
-              src="./logo.svg"
+              src={logo}
               alt="разработчик, Мироненко Денис"
               className="header__logo"
             />
           </a>
           <UserBlock />
         </div>
-        
+
         <HeaderBar />
       </div>
     </header>

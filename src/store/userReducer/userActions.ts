@@ -6,28 +6,23 @@ import { TRootReducer } from "../rootReducer";
 import { Action } from "redux";
 
 export const getUserDate = ():ThunkAction<void, TRootReducer, unknown, Action<string>> => (dispatch, getState) => {
-  const token = getState().app.token;
-  if (token !== undefined) {
-    dispatch(showLoader());
-    Axios
-    .get("https://api.unsplash.com/me/", {
-      headers: {Authorization: `Bearer ${getState().app.token}`},
+  dispatch(showLoader());
+  Axios.get("https://api.unsplash.com/me/", {
+      headers: { Authorization: `Bearer ${getState().app.token}` },
     })
-    .then((resp) => {
+    .then(resp => {
       dispatch({
         type: GET_USERDATA,
         numeric_id: resp.data.numeric_id,
         name: resp.data.name,
         username: resp.data.username,
         profile_image: resp.data.profile_image,
-      })  
-      dispatch(hideLoader());
+      });
     })
-    .catch((er) => {
-      dispatch(showAlert(`Что то пошло не так, попробуйте зайти в приложение позднее. ${er}`));
-      dispatch(hideLoader());
-    });
-  }  
+    .catch(er => {
+      dispatch(showAlert(`Что то пошло не так, попробуйте зайти в приложение позднее. ${er.response?.data}`));
+    })
+    .finally( () => dispatch(hideLoader()));
 }
 
 export function clearUserData() {

@@ -64,7 +64,6 @@ export function createList(json: Array<any>) {
           myObj.author_username = obj[key].username;
           break;
         default:
-          console.log("no entries");
           break;
       }
     }

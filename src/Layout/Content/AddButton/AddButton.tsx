@@ -7,11 +7,8 @@ import "./addbutton.css";
 
 export function AddButton() {
   const dispatch = useDispatch();
-
-  const userID = useSelector<TRootReducer, number | null>(
-    (state) => state.userData.numeric_id
-  );
   const history = useHistory();
+  const userID = useSelector<TRootReducer, number | null>(state => state.userData.numeric_id);
 
   const handleClick = () => {
     dispatch(getListPhoto());
@@ -22,7 +19,7 @@ export function AddButton() {
     <button
       type="button"
       className="btn content__btn"
-      disabled={userID ? false : true}
+      disabled={!userID}
       onClick={handleClick}
     >
       Загрузить фотографии

@@ -10,7 +10,6 @@ export type TRootReducer = {
   userData: TUserDataReducer;
 }
 
-
 export const rootReducer: Reducer<
   CombinedState<{
     app: TAppReducer;

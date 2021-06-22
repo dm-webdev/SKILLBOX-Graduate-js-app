@@ -13,18 +13,18 @@ export function Alert({ text }: IAlert) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleClick = ()=>{
+  const handleCloseAlert = () => {
     dispatch(hideAlert());
     dispatch(clearUserData());
     dispatch(clearToken());
-    localStorage.removeItem("token");
+    localStorage.removeItem("unsplashToken");
     history.push("/");
-  }
+  };
 
   return (
     <div className="alert">
       <p className="alert__desc">{text}</p>
-      <button className="btn" onClick={handleClick}>скрыть</button>
+      <button className="btn" onClick={handleCloseAlert}>скрыть</button>
     </div>
   );
 }

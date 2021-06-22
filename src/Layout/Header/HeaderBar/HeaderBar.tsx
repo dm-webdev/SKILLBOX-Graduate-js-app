@@ -1,23 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { TRootReducer } from "../../../store/rootReducer";
 import "./headerbar.css";
+import {TUserDataReducer} from '../../../store/userReducer/userDataReducer';
 
 export function HeaderBar() {
-  const name = useSelector<TRootReducer, string | undefined>(
-    (state) => state.userData.name
-  );
+  const userData = useSelector<TRootReducer, TUserDataReducer>(state => state.userData);
+  const isUserDataPresent = !!userData?.numeric_id;
 
-  const locationHome = useLocation().pathname === "/";
-  const locationAuth = useLocation().pathname.includes("/auth");
-  const locationGallery = useLocation().pathname.includes("/gallery");
-  
   return (
     <div className="header__bar">
-      {locationHome && "Пожалуйста авторизуйтесь!"}
-      {locationAuth && `Добро пожаловать, ${name}!`}
-      {locationGallery && `Сегодня ${new Date().toLocaleDateString()}`}
+      {!isUserDataPresent && "Пожалуйста авторизуйтесь!"}
+      {isUserDataPresent && `Добро пожаловать, ${userData.name}!`}
     </div>
   );
 }

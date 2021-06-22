@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-
 import Unsplash from "unsplash-js";
 import {
   hideLoader,
@@ -19,7 +18,11 @@ import { createList } from "./createList";
 const unsplash = new Unsplash({
   accessKey: "gtlSt2e3pUksk6EJN0uu7g3bt9e69AoDfqtJRUk4bj0",
   secret: "rAykEjts_1a63ZtS3hwqCkdqJ6yc9USfb4hAHI5EG5I",
-  callbackUrl: "https://dm-webdev.ru/react_app",
+  callbackUrl: "https://dm-webdev.ru/react-app",
+
+  // accessKey: "bK8VrY_ggqkjbbafQD4VPkWDu5nwN6QaBN5x7Fuezsw",
+  // secret: "ODzUc7b9i6_d3L_zJrsivdbO5yr3GrY_D2tQisUuutg",
+  // callbackUrl: "http://localhost:3000/react-app",
 });
 
 const authenticationUrl = unsplash.auth.getAuthenticationUrl([
@@ -33,47 +36,42 @@ export function getTokenUserData() {
 
 export function useToken() {
   const dispatch = useDispatch();
-  const token = useSelector<TRootReducer, string | undefined>(
+  const token = useSelector<TRootReducer, string | null>(
     (state) => state.app.token
   );
+  const isTokenPresent = !!token;
+  const code = location.search.split("code=")[1];
+  const isCodePresent = !!code;
 
   useEffect(() => {
-    dispatch({ type: "useToken" });
-    const code = location.search.split("code=")[1];
+    const tokenFromLocalStore = localStorage.getItem("unsplashToken");
+    const isTokenFromLocalStorePresent = !!tokenFromLocalStore;
 
-    if (code === undefined && token === undefined) {
-      const localToken = localStorage.getItem("token");
+    if (!isTokenPresent && isTokenFromLocalStorePresent && typeof tokenFromLocalStore === 'string') {
+      dispatch(setToken(tokenFromLocalStore));
+      unsplash.auth.setBearerToken(tokenFromLocalStore);
+    }
 
-      if (
-        localToken !== undefined &&
-        localToken !== null &&
-        localToken.length > 9
-      ) {
-        dispatch(setToken(localToken));
-        unsplash.auth.setBearerToken(localToken);
-      }
-    } else if (code && token === undefined) {
-      dispatch({ type: "FROM_Up" });
+    if (!isTokenPresent && isCodePresent && !isTokenFromLocalStorePresent) {
       dispatch(showLoader());
       unsplash.auth
         .userAuthentication(code)
-        .then((res) => res.json())
-        .then((json) => {
-          localStorage.setItem("token", `${json.access_token}`);
+        .then(res => res.json())
+        .then(json => {
+          localStorage.setItem("unsplashToken", `${json.access_token}`);
           dispatch(setToken(json.access_token));
           unsplash.auth.setBearerToken(json.access_token);
-          dispatch(hideLoader());
+          const path = location.origin + location.pathname;
+          location.replace(path);
         })
-        .catch((er) => {
-          dispatch(
-            showAlert(
-              `Во время авторизации, что-то пошло не так, попробуйте зайти в приложение позднее. ${er}`
-            )
-          );
-          dispatch(hideLoader());
-        });
+        .catch(er => {
+          dispatch(showAlert(
+            `Во время авторизации, что-то пошло не так, попробуйте зайти в приложение позднее. ${er.response?.data}`
+          ));
+        })
+        .finally( () => dispatch(hideLoader()));
     }
-  }, [dispatch, token]);
+  }, [isTokenPresent, isCodePresent]);
 }
 
 export const getListPhoto = (): ThunkAction<
@@ -86,42 +84,31 @@ export const getListPhoto = (): ThunkAction<
   dispatch(showLoader());
   unsplash.photos
     .listPhotos(getState().app.count, 10, "latest")
-    .then((res) => res.json())
-    .then((json) => {
+    .then(res => res.json())
+    .then(json => {
       dispatch({ type: GET_GALLERY, photos: createList(json) });
-      dispatch(hideLoader());
     })
-    .catch((er) => {
-      dispatch(
-        showAlert(
-          `Что то пошло не так, попробуйте зайти в приложение позднее. ${er}`
-        )
-      );
-      dispatch(hideLoader());
-    });
+    .catch(er => {
+      dispatch(showAlert(
+        `Что то пошло не так, попробуйте зайти в приложение позднее. ${er.response?.data}`
+      ));
+    })
+    .finally( () => dispatch(hideLoader()));
 };
 
-export const likePhoto = (
-  id: string
-): ThunkAction<void, TRootReducer, unknown, Action<string>> => (dispatch) => {
-  unsplash.photos.likePhoto(id).catch((er) => {
-    dispatch(
-      showAlert(
-        `Во время оценки фото, что-то пошло не так, попробуйте зайти в приложение позднее. ${er}`
-      )
-    );
+export const likePhoto = (id: string): ThunkAction<void, TRootReducer, unknown, Action<string>> => dispatch => {
+  unsplash.photos.likePhoto(id).catch(er => {
+    dispatch(showAlert(
+      `Во время оценки фото, что-то пошло не так, попробуйте зайти в приложение позднее. ${er.response?.data}`
+    ));
   });
 };
 
 
-export const dislikePhoto = (
-  id: string
-): ThunkAction<void, TRootReducer, unknown, Action<string>> => (dispatch) => {
+export const dislikePhoto = (id: string): ThunkAction<void, TRootReducer, unknown, Action<string>> => dispatch => {
   unsplash.photos.unlikePhoto(id).catch((er) => {
-    dispatch(
-      showAlert(
-        `Во время оценки фото, что-то пошло не так, попробуйте зайти в приложение позднее. ${er}`
-      )
-    );
+    dispatch(showAlert(
+      `Во время оценки фото, что-то пошло не так, попробуйте зайти в приложение позднее. ${er.response?.data}`
+    ));
   });
 };

@@ -12,12 +12,8 @@ interface ICard {
 
 export function Card({ photo }: ICard) {
   const history = useHistory();
-
-  const cardPhotoClose = () => {
-    history.push("/gallery");
-  };
-
-  const locationCardPhoto = useLocation().pathname === `/gallery/${photo.id}`;
+  const cardPhotoClose = () => history.push("/gallery");
+  const isLocationCardPhoto = useLocation().pathname === `/gallery/${photo.id}`;
 
   return (
     <li className="content__item">
@@ -39,9 +35,7 @@ export function Card({ photo }: ICard) {
 
       <CardMenu photo={photo} />
 
-      {locationCardPhoto && (
-        <CardPhoto photo={photo} cardPhotoClose={cardPhotoClose} />
-      )}
+      {isLocationCardPhoto && <CardPhoto photo={photo} cardPhotoClose={cardPhotoClose} />}
     </li>
   );
 }

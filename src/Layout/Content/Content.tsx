@@ -1,29 +1,25 @@
 import React, { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { getListPhoto } from "../../utils/unsplash";
 import { AddButton } from "./AddButton";
 import { CardList } from "./CardList";
 import "./content.css";
+import { TRootReducer } from "../../store/rootReducer";
+import { TUserDataReducer } from "../../store/userReducer/userDataReducer";
 
 export function Content() {
+  const dispatch = useDispatch();
   const bottomMarker = useRef<HTMLDivElement>(null);
   const bottomOfList = bottomMarker.current;
-
-  const dispatch = useDispatch();
-
-  const locationAuth = useLocation().pathname.includes("/auth");
+  const userData = useSelector<TRootReducer, TUserDataReducer>(state => state.userData);
+  const isUserDataPresent = !!userData?.numeric_id;
   const locationGallery = useLocation().pathname.includes("/gallery");
-  console.log(useLocation());
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      () => {
-        dispatch(getListPhoto());
-      },
-      {
-        rootMargin: "100px",
-      }
+      () => dispatch(getListPhoto()),
+      { rootMargin: "100px" }
     );
 
     if (bottomOfList) {
@@ -35,17 +31,15 @@ export function Content() {
         observer.unobserve(bottomOfList);
       }
     };
-  }, [bottomOfList, dispatch]);
+  }, [bottomOfList]);
 
   return (
     <main className="content container">
       <CardList />
 
-      {(locationAuth || locationGallery) && <AddButton />}
+      {isUserDataPresent && <AddButton />}
 
-      {locationGallery && (
-        <div className="content__bottom" ref={bottomMarker} />
-      )}
+      {locationGallery && <div className="content__bottom" ref={bottomMarker} />}
     </main>
   );
 }
